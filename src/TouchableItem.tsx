@@ -34,6 +34,7 @@ export default class TouchableItem extends React.Component<Props> {
       pressColor,
       borderless,
       children,
+      onPress,
       ...rest
     } = this.props;
 
@@ -41,6 +42,9 @@ export default class TouchableItem extends React.Component<Props> {
       return (
         <TouchableNativeFeedback
           {...rest}
+          onPress={onPress}
+          // For an unknown reason onLongPress is call most of time when onPress should have
+          onLongPress={onPress}
           background={TouchableNativeFeedback.Ripple(pressColor, borderless)}
         >
           <View style={style}>{React.Children.only(children)}</View>
@@ -48,7 +52,14 @@ export default class TouchableItem extends React.Component<Props> {
       );
     } else {
       return (
-        <TouchableOpacity {...rest} style={style} activeOpacity={pressOpacity}>
+        <TouchableOpacity
+          {...rest}
+          onPress={onPress}
+          // For an unknown reason onLongPress is call most of time when onPress should have
+          onLongPress={onPress}
+          style={style}
+          activeOpacity={pressOpacity}
+        >
           {children}
         </TouchableOpacity>
       );
